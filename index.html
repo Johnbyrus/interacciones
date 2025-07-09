@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Video 360 con Interacción - A-Frame</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable">
+      <!-- Assets -->
+      <a-assets>
+        <video id="video360" autoplay loop muted playsinline crossorigin="anonymous" preload="auto">
+          <source src="assets/lab_hidraulica.mp4" type="video/mp4">
+        </video>
+        <!-- Íconos (reemplaza por tus imágenes o rutas reales) -->
+        <img id="estrella" src="assets/estrella.png" />
+        <img id="seguridad" src="assets/seguridad.png" />
+        <img id="microscopio" src="assets/microscopio.png" />
+        <img id="bata" src="assets/bata.png" />
+      </a-assets>
+
+      <!-- Video 360 -->
+      <a-videosphere src="#video360" rotation="0 -90 0"></a-videosphere>
+
+      <!-- Cámara con cursor -->
+      <a-camera position="0 1.6 0">
+        <a-cursor fuse="false"></a-cursor>
+      </a-camera>
+
+      <!-- Ícono 1: Estrella (bienvenida) -->
+      <a-image id="icono-estrella"
+               class="clickable"
+               src="#estrella"
+               position="3 2 -4"
+               scale="0.5 0.5 1"
+               look-at="[camera]">
+      </a-image>
+
+      <!-- Ícono 2: Seguridad -->
+      <a-image id="icono-seguridad"
+               class="clickable"
+               src="#seguridad"
+               position="-3 2 -4"
+               scale="0.5 0.5 1"
+               look-at="[camera]">
+      </a-image>
+
+      <!-- Ícono 3: Microscopio -->
+      <a-image id="icono-microscopio"
+               class="clickable"
+               src="#microscopio"
+               position="0 1 -4"
+               scale="0.5 0.5 1"
+               look-at="[camera]">
+      </a-image>
+
+      <!-- Ícono 4: Bata -->
+      <a-image id="icono-bata"
+               class="clickable"
+               src="#bata"
+               position="0 3 4"
+               scale="1.5 1.5 1"
+               look-at="[camera]">
+      </a-image>
+
+      <!-- Diálogo flotante -->
+      <a-entity id="dialog"
+                geometry="primitive: plane; height: 1; width: 2.8"
+                material="color: white; opacity: 0.85"
+                position="0 2 -3"
+                visible="false"
+                text="value: ; align: center; color: black; wrapCount: 40;">
+      </a-entity>
+    </a-scene>
+
+    <script>
+      const dialog = document.querySelector('#dialog');
+
+      // Manejador común
+      function mostrarMensaje(mensaje) {
+        dialog.setAttribute('text', 'value', mensaje);
+        dialog.setAttribute('visible', true);
+
+        setTimeout(() => {
+          dialog.setAttribute('visible', false);
+        }, 5000);
+      }
+
+      // Eventos de clic para cada ícono
+      document.querySelector('#icono-estrella').addEventListener('click', () => {
+        mostrarMensaje('Bienvenidos al laboratorio de hidráulica; esperamos que disfrutes de este recorrido interactivo.');
+      });
+
+      document.querySelector('#icono-seguridad').addEventListener('click', () => {
+        mostrarMensaje('La seguridad es primordial en el laboratorio; sigue las normas y usa siempre tus elementos de protección personal.');
+      });
+
+      document.querySelector('#icono-microscopio').addEventListener('click', () => {
+        mostrarMensaje('El laboratorio de hidráulica permite complementar el conocimiento teórico con experiencias prácticas reales.');
+      });
+
+      document.querySelector('#icono-bata').addEventListener('click', () => {
+        mostrarMensaje('Gracias por visitarnos. Disfruta del entorno 360 que te ofrece este recorrido.');
+      });
+    </script>
+  </body>
+</html>
